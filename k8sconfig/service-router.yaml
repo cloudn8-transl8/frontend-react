@@ -1,0 +1,34 @@
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: web
+spec:
+  protocol: http
+
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceRouter
+metadata:
+  name: web
+spec:
+  routes:
+  - destination:
+      service: "web"
+      numRetries: 3
+      retryOnStatusCodes: [500, 503]
+
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: web
+spec:
+  defaultSubset: web-primary
+  subsets:
+    web-primary:
+      filter: "Service.ID contains \"web-primary\""
+      onlyPassing: true
+    web-canary:
+      filter: "Service.ID not contains \"web-primary\""
+      onlyPassing: true

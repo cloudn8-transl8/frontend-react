@@ -1,10 +1,75 @@
+---
 version: 2.1
-
 orbs:
-  node: circleci/node@4.1.0
+  node: circleci/node@3.0.0
+  gke: circleci/gcp-gke@1.1.0
+  kubernetes: circleci/kubernetes@0.11.2
+  docker: circleci/docker@1.5.0
+  discord: antonioned/discord@0.1.0
+
+jobs:
+  test:
+    machine: true
+    steps:
+      - checkout
+      - run:
+         name: test app
+         command: npm install
+
+  build-docker:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: nicholasjackson/translate-web
+          tag: ${CIRCLE_SHA1}
+      - docker/push:
+          digest-path: /tmp/digest.txt
+          image: nicholasjackson/translate-web
+          tag: ${CIRCLE_SHA1}
+      - run:
+          command: |
+            echo "Digest is: $(</tmp/digest.txt)"
+      - discord/status:
+          success_message: "Successfully built and pushed new image nicholasjackson/translate-web:${CIRCLE_REF}"
+
+  create-update-deployment:
+    machine: true
+    steps:
+      - checkout
+      - gke/update-kubeconfig-with-credentials:
+          cluster: prog-delivery
+          install-kubectl: true
+          perform-login: true
+      - run:
+          name: "Generate kustomization config"
+          command: ./scripts/prepare_kustomize.sh
+      - kubernetes/create-or-update-resource:
+          resource-file-path: k8sconfig/
+          show-kubectl-command: true
+          kustomize: true
+      - discord/status:
+          success_message: "**${CIRCLE_USERNAME}** deployed web to prod, I would double check this as he has been known to engineer bugs"
 
 workflows:
-  test-build-deploy:
+  build-and-deploy:
     jobs:
-      - node/test
-
+      - test:
+          context:
+          - transl8
+      - build-docker:
+          context:
+          - transl8
+          requires:
+            - test
+      - create-update-deployment:
+          context:
+          - transl8
+          requires:
+            - build-docker
+          filters:
+            branches:
+              only:
+                - main
