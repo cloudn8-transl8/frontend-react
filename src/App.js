@@ -19,9 +19,9 @@ function App() {
     e.preventDefault()
     let stringToTranslate = inputRef.current.value
 
-    let transl8Response = await fetch({
-      url: 'http://api.translate.demo.gs/translate', //Inject value
+    let transl8Response = await fetch('http://api.translate.demo.gs/translate', {
       method: 'POST',
+      cors: 'cors',
       headers: {
         'Content-Type': 'text/plain',
       },
@@ -56,7 +56,12 @@ function App() {
     <br/>
     <br/>
 
-  <Form.Control name="output" as="textarea" rows={3} placeholder="¡Soy milk!" value={translationOutput}/>
+  <Form.Control 
+    name="output" 
+    as="textarea" 
+    rows={3} 
+    placeholder="¡Soy milk!" 
+    defaultValue={translationOutput}/>
 
     <br/>
 <footer>
