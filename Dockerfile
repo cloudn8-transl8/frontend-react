@@ -7,6 +7,8 @@ WORKDIR /app
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+
 # install app dependencies
 COPY package.json ./
 COPY package-lock.json ./
