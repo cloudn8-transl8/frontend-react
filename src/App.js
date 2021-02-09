@@ -12,25 +12,22 @@ import { faLanguage } from "@fortawesome/free-solid-svg-icons";
 function App() {
 
   const [translationInput, setTranslationInput] = useState('')
-  const [translationOutput, setTranslationOutput] = useState('')
+  const [translationOutput, setTranslationOutput] = useState('¡Soy milk!')
   const inputRef = createRef()
 
   const submitTranslation = async e => {
     e.preventDefault()
     let stringToTranslate = inputRef.current.value
 
-    let transl8Response = await fetch('http://api.translate.demo.gs/translate', {
+    let transl8Response = await fetch('/translate', {
       method: 'POST',
-      cors: 'cors',
       headers: {
         'Content-Type': 'text/plain',
       },
-      body: stringToTranslate
+      body: stringToTranslate,
     })
 
-    console.log(transl8Response)
-    
-    
+    setTranslationOutput(stringToTranslate)
   }
 
   return (
@@ -50,7 +47,6 @@ function App() {
   <br/>
   <Button variant="primary" type="submit" onClick={submitTranslation}>
     <FontAwesomeIcon icon={faLanguage} />
-    {/* <FontAwesomeIcon icon={translate} fixedWidth border /> */}
   </Button>
 
     <br/>
@@ -60,8 +56,9 @@ function App() {
     name="output" 
     as="textarea" 
     rows={3} 
-    placeholder="¡Soy milk!" 
-    defaultValue={translationOutput}/>
+    value={translationOutput}
+    readOnly
+    />
 
     <br/>
 <footer>
