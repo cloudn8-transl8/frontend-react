@@ -2,18 +2,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from './logo.svg';
 
 import './App.css';
-import { useState, createRef} from 'react'
+import { useState, createRef, useEffect } from 'react'
 import { Form, Container, Button, NavLink} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLanguage } from "@fortawesome/free-solid-svg-icons";
-
-
 
 function App() {
 
   const [translationInput, setTranslationInput] = useState('')
   const [translationOutput, setTranslationOutput] = useState('¡Soy milk!')
+  const [languages, setLanguages] = useState([{"code":"en","name":"English"}, {"code":"sl","name":"Slovenian"}])
+
   const inputRef = createRef()
+  const languageRef = createRef() 
+
+  const fetchLanguages = async () => {
+    let langsResponse = await fetch('/languages')
+    let languages = langsResponse.json()
+    setLanguages(languages)
+  }
+
+  useEffect( () => {
+    fetchLanguages()
+  }, [])
 
   const submitTranslation = async e => {
     e.preventDefault()
@@ -27,7 +38,7 @@ function App() {
       body: stringToTranslate,
     })
 
-    setTranslationOutput(stringToTranslate)
+    setTranslationOutput(transl8Response.value)
   }
 
   return (
@@ -48,6 +59,10 @@ function App() {
   <Button variant="primary" type="submit" onClick={submitTranslation}>
     <FontAwesomeIcon icon={faLanguage} />
   </Button>
+
+  <Form.Control ref={languageRef} as="select" defaultValue={ languages[0].name }>
+    { languages.map( language => <option> { language.name } </option> )}
+  </Form.Control>
 
     <br/>
     <br/>
