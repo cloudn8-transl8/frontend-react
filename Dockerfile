@@ -18,6 +18,9 @@ RUN npm install react-scripts@4.0.2 -g --silent
 
 COPY . ./
 
+RUN chmod +x scripts/create_config_file.sh
+RUN scripts/create_config_file.sh
+
 RUN npm run build
 
 # Production environment

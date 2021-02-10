@@ -8,14 +8,6 @@ orbs:
   discord: antonioned/discord@0.1.0
 
 jobs:
-  test:
-    machine: true
-    steps:
-      - checkout
-      - run:
-         name: test app
-         command: npm install
-
   build-docker:
     executor: docker/docker
     steps:
@@ -57,14 +49,12 @@ jobs:
 workflows:
   build-and-deploy:
     jobs:
-      - test:
-          context:
-          - transl8
+      - node/test
       - build-docker:
           context:
           - transl8
           requires:
-            - test
+            - node/test
       - create-update-deployment:
           context:
           - transl8
