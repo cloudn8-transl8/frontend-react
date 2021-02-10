@@ -10,8 +10,12 @@ import Transl8 from './Transl8'
 
 function App() {
 
-  const API_ENDPOINT = window._env_.API_ENDPOINT || 'http://localhost:3001'
-  const api = API(API_ENDPOINT)
+  let API_ENDPOINT = 'http://localhost:3001'
+  if(window.__env__ && window.__env__.API_ENDPOINT){
+    API_ENDPOINT = window.__env__.API_ENDPOINT
+  }
+
+  let api = API(API_ENDPOINT)
 
   return (
     <div className="App">

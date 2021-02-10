@@ -16,6 +16,7 @@ function Transl8(props) {
     const languageRef = createRef() 
 
     useEffect(async () => {
+        
         let languageList = await api.fetchLanguages()
         setLanguages(languageList)
     }, [])
