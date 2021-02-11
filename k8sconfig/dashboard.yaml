@@ -24,7 +24,6 @@ data:
       "editable": true,
       "gnetId": null,
       "graphTooltip": 0,
-      "id": 1,
       "links": [],
       "panels": [
         {
@@ -75,7 +74,7 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(envoy_http_downstream_rq_xx{pod=~\"web.*\", local_cluster=\"web\", envoy_http_conn_manager_prefix=\"upstream\", envoy_response_code_class=~\"2|5\"}[30s])",
+              "expr": "sum by (envoy_response_code_class) (rate(envoy_http_downstream_rq_xx{consul_upstream_service=\"web\"}[30s]))",
               "interval": "",
               "legendFormat": "Response Code {{envoy_response_code_class}}xx",
               "refId": "A"
@@ -221,10 +220,12 @@ data:
           "renderer": "flot",
           "seriesOverrides": [
             {
+              "$$hashKey": "object:536",
               "alias": "Primary - 200",
               "color": "#73BF69"
             },
             {
+              "$$hashKey": "object:537",
               "alias": "Canary - 200",
               "color": "#FADE2A"
             }
@@ -234,13 +235,13 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (envoy_response_code) (rate(envoy_cluster_upstream_rq{pod!~\"api-primary.*\", namespace=\"default\", envoy_cluster_name=\"local_app\"}[30s]))",
+              "expr": "sum by (envoy_response_code) (rate(envoy_cluster_upstream_rq{pod!~\"web-primary.*\", namespace=\"default\", envoy_cluster_name=\"local_app\", pod=~\"web.*\"}[30s]))",
               "interval": "",
               "legendFormat": "Canary - {{envoy_response_code}}",
               "refId": "A"
             },
             {
-              "expr": "sum by (envoy_response_code) (rate(envoy_cluster_upstream_rq{pod=~\"api-primary.*\", namespace=\"default\", envoy_cluster_name=\"local_app\"}[30s]))",
+              "expr": "sum by (envoy_response_code) (rate(envoy_cluster_upstream_rq{pod=~\"web-primary.*\", namespace=\"default\", envoy_cluster_name=\"local_app\",pod=~\"web.*\"}[30s]))",
               "interval": "",
               "legendFormat": "Primary - {{envoy_response_code}}",
               "refId": "B"
@@ -351,13 +352,13 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(kube_pod_status_ready{pod=~\"api-primary.*\", pod=~\"api.*\"})",
+              "expr": "sum(kube_pod_status_ready{pod=~\"web-primary.*\", pod=~\"web.*\"})",
               "interval": "",
               "legendFormat": "Primary",
               "refId": "A"
             },
             {
-              "expr": "sum(kube_pod_status_ready{pod!~\"api-primary.*\", pod=~\"api.*\"})",
+              "expr": "sum(kube_pod_status_ready{pod!~\"web-primary.*\", pod=~\"web.*\"})",
               "interval": "",
               "legendFormat": "Canary",
               "refId": "B"
@@ -470,7 +471,7 @@ data:
       },
       "timepicker": {},
       "timezone": "",
-      "title": "Canary",
-      "uid": "irtYjefGk",
-      "version": 21
+      "title": "Web",
+      "uid": "blahdfsfk",
+      "version": 1
     }
