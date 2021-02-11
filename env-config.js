@@ -1,3 +1,3 @@
 window._env = {
-    API_ENDPOINT: "http://localhost:3001",
+  API_ENDPOINT: 'http://localhost:3001'
 }

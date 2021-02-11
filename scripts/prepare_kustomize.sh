@@ -7,6 +7,7 @@ resources:
 - canary.yaml
 - dashboard.yaml
 - service-router.yaml
+- loadtest.yaml
 
 images:
 - name: nicholasjackson/translate-web

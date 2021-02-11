@@ -41,3 +41,6 @@ spec:
         image: nicholasjackson/translate-web:0.0.1
         ports:
         - containerPort: 80
+        env:
+        - name: "API_ENDPOINT"
+          value: "http://api.translate.demo.gs"

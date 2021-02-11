@@ -15,9 +15,6 @@ jobs:
           version: 19.03.13
       - checkout
       - docker/check
-      - run:
-          name: pass env variables to Docker
-          command: env > envfile
       - docker/build:
           image: nicholasjackson/translate-web
           tag: ${CIRCLE_SHA1}
