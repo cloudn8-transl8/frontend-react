@@ -11,8 +11,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 
-
 COPY envfile ./
+RUN cat envfile
 RUN source envfile
 RUN echo $API_ENDPOINT
 
