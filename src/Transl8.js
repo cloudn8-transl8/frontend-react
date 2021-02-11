@@ -24,7 +24,7 @@ function Transl8(props) {
     const submitTranslation = async e => {
         e.preventDefault()
         let stringToTranslate = inputRef.current.value
-        let language = languageRef.current.value
+        let language = languages[languageRef.current.selectedIndex].code
         let transl8Response = await api.translate(stringToTranslate, language)    
         setTranslationOutput(transl8Response)
       }
