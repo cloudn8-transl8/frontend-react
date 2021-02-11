@@ -11,7 +11,7 @@ fi
 
 # Add assignment 
 cat <<EOF > /usr/share/nginx/html/env-config.js
-window._env_ = {"
+window._env_ = {
   API_ENDPOINT: "${API_ENDPOINT}"
 }
 EOF
