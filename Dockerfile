@@ -9,6 +9,11 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 
+
+COPY envfile ./
+RUN source envfile
+RUN echo $API_ENDPOINT
+
 # install app dependencies
 COPY package.json ./
 COPY package-lock.json ./
