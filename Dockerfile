@@ -1,6 +1,8 @@
 # pull official base image
 FROM node:latest as build
 
+SHELL ["/bin/bash", "-c"] 
+
 # set working directory
 WORKDIR /app
 
