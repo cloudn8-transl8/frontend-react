@@ -18,9 +18,9 @@ const Api = (API_ENDPOINT) => {
           })
 
           console.log("translation")
-          console.log(input)
-          console.log(transl8Response)
-          return transl8Response.value
+          let transl8Text = transl8Response.text()
+          console.log(transl8Text)
+          return transl8Response.transl8Text
     }
 
     return {
