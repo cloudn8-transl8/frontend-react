@@ -20,7 +20,7 @@ const Api = (API_ENDPOINT) => {
           console.log("translation")
           let transl8Text = await transl8Response.text()
           console.log(transl8Text)
-          return transl8Response.transl8Text
+          return transl8Text
     }
 
     return {
