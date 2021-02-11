@@ -18,7 +18,6 @@ jobs:
       - run:
           name: pass env variables to Docker
           command: env > envfile
-      - run: cat envfile
       - docker/build:
           image: nicholasjackson/translate-web
           tag: ${CIRCLE_SHA1}
