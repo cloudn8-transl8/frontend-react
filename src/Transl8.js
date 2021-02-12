@@ -3,6 +3,7 @@ import { useState, createRef, useEffect } from 'react'
 import { Form, Container, Button, NavLink} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLanguage } from "@fortawesome/free-solid-svg-icons";
+import ErrorPage from './ErrorPage'
 
 function Transl8(props) {
 
@@ -25,11 +26,23 @@ function Transl8(props) {
         e.preventDefault()
         let stringToTranslate = inputRef.current.value
         let language = languages[languageRef.current.selectedIndex].code
-        let transl8Response = await api.translate(stringToTranslate, language)    
-        setTranslationOutput(transl8Response)
+        try {
+            let transl8Response = await api.translate(stringToTranslate, language)    
+            setTranslationOutput(transl8Response)
+        }
+        catch(e){
+            console.log(e)
+            setBorked(true)
+        }
+        
       }
 
+
+    const [borked, setBorked] = useState(false)
+
     return (
+        !borked ? 
+
         <Container className="Content-container">
             <header className="App-Header">
                 <h1>Cloudn8-Transl8</h1>
@@ -70,6 +83,8 @@ function Transl8(props) {
 
 
         </Container>
+        
+        : <ErrorPage />
 
     )
 }
