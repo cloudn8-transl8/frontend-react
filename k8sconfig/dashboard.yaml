@@ -74,7 +74,7 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (envoy_response_code_class) (rate(envoy_http_downstream_rq_xx{consul_upstream_service=\"web\"}[30s]))",
+              "expr": "sum by (envoy_response_code_class) (rate(envoy_vhost_vcluster_upstream_rq_xx{envoy_virtual_host=\"frontend\"}[30s]))",
               "interval": "",
               "legendFormat": "Response Code {{envoy_response_code_class}}xx",
               "refId": "A"
@@ -164,7 +164,7 @@ data:
           "pluginVersion": "7.3.5",
           "targets": [
             {
-              "expr": "sum(rate(envoy_cluster_upstream_rq_retry{consul_source_service=\"web\"}[30s]))",
+              "expr": "sum(rate(envoy_vhost_vcluster_upstream_rq_retry{envoy_virtual_host=\"frontend\"}[30s]))",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
