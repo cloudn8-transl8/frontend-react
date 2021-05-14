@@ -19,6 +19,7 @@ function App() {
 
   return (
     <div className="App">
+      Hello World
       <Transl8 api={api}
       />
 </div>
